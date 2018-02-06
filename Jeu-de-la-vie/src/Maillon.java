@@ -1,6 +1,6 @@
 package ProjetSemetre4;
 
-public class Maillon {
+public class Maillon<T> {
 
      Position valeur;
      Maillon suivant;
