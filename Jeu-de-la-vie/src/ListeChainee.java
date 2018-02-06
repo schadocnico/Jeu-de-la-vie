@@ -1,13 +1,5 @@
 public class ListeChainee<T extends Comparable>{
 
-<<<<<<< HEAD
-    private Maillon<T> tete;
-=======
-public class ListeChainee<T> {
-
-    private Maillon tete;
->>>>>>> master
-
     public ListeChainee(){
         this.tete = null;
     }
@@ -22,7 +14,6 @@ public class ListeChainee<T> {
         //On regarde si le maillon suivant n'est pas null et que la valeur suivante est inferieur
         while (selection.getSuivant()!=null && (selection.getSuivant().getValeur().compareTo(cellule)<=0)) selection=selection.getSuivant();
 
-<<<<<<< HEAD
         selection.setSuivant(new Maillon<>(cellule, selection.getSuivant()));
     }
 
@@ -41,14 +32,6 @@ public class ListeChainee<T> {
         public V getValeur(){
             return valeur;
         }
-=======
-    public void add(Position cellule){
-
-        if (isEmpty()==true) { //cas ou la liste est vide
-            this.tete =  new Maillon(cellule, this.tete);
-        }
-
->>>>>>> master
 
         public void setValeur(V valeur) {
             this.valeur = valeur;
