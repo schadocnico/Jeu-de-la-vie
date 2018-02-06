@@ -17,7 +17,7 @@ public class ListeChainee<T extends Comparable>{
         selection.setSuivant(new Maillon<>(cellule, selection.getSuivant()));
     }
 
-
+    //Classe interne Maillon >>>>>>
     private class Maillon<V extends Comparable> {
 
         private V valeur;
@@ -45,4 +45,5 @@ public class ListeChainee<T extends Comparable>{
             return suivant;
         }
     }
+    //========
 }
