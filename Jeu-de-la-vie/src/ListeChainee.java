@@ -1,8 +1,12 @@
-package ProjetSemetre4;
+public class ListeChainee<T extends Comparable>{
 
+<<<<<<< HEAD
+    private Maillon<T> tete;
+=======
 public class ListeChainee<T> {
 
     private Maillon tete;
+>>>>>>> master
 
     public ListeChainee(){
         this.tete = null;
@@ -12,49 +16,50 @@ public class ListeChainee<T> {
         return this.tete == null;
     }
 
+    public void add(T cellule){
+        if (isEmpty()) tete.setValeur(cellule);
+        Maillon<T> selection = tete;
+        //On regarde si le maillon suivant n'est pas null et que la valeur suivante est inferieur
+        while (selection.getSuivant()!=null && (selection.getSuivant().getValeur().compareTo(cellule)<=0)) selection=selection.getSuivant();
 
+<<<<<<< HEAD
+        selection.setSuivant(new Maillon<>(cellule, selection.getSuivant()));
+    }
+
+
+    private class Maillon<V extends Comparable> {
+
+        private V valeur;
+        private Maillon<V> suivant;
+
+        public Maillon(V valeur, Maillon<V> suivant){
+            this.valeur=valeur;
+            this.suivant=suivant;
+        }
+
+
+        public V getValeur(){
+            return valeur;
+        }
+=======
     public void add(Position cellule){
 
         if (isEmpty()==true) { //cas ou la liste est vide
             this.tete =  new Maillon(cellule, this.tete);
         }
 
+>>>>>>> master
 
-    }
-
-
-
-    public boolean contains(Position cellule){
-
-        Maillon vMaillon = this.tete;
-        while(vMaillon != null){
-
-            if(vMaillon.getValeur().getLigne() == cellule.getLigne() && vMaillon.getValeur().getColonne() == cellule.getColonne()){
-                return true;
-            }
-
-            vMaillon = vMaillon.suivant;
+        public void setValeur(V valeur) {
+            this.valeur = valeur;
         }
 
-        return false;
-    }
-
-
-
-    public void removeTete(){
-        if(this.tete == null){
-            System.out.println("la liste est vide");
-        } else {
-            this.tete = this.tete.suivant;
+        public void setSuivant(Maillon<V> suivant) {
+            this.suivant = suivant;
         }
 
-    }
-
-    public  Position getTete(){
-        return this.tete.valeur;
-    }
-
-    public void suivant(){
-        this.tete=tete.getSuivant();
+        public Maillon<V> getSuivant() {
+            return suivant;
+        }
     }
 }
