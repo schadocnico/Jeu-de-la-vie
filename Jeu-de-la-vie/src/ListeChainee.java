@@ -22,7 +22,7 @@ public class ListeChainee<T extends Comparable>{
         selection.setSuivant(new Maillon<>(cellule, selection.getSuivant()));
     }
 
-    public ListeChainee<T> groupeCellule(Selection<T> fun){
+    public ListeChainee<T> selection(Selection<T> fun){
         Maillon<T> selection = tete;
         ListeChainee<T> liste = new ListeChainee<>();
         while (selection.getSuivant()!=null){
