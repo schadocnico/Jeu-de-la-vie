@@ -1,9 +1,12 @@
 import java.util.Iterator;
 
 public class ListeChainee<T extends Comparable>{
+    private Maillon tete;
+    private int size;
 
     public ListeChainee(){
         this.tete = null;
+        size=0;
     }
 
     public boolean isEmpty(){
@@ -13,6 +16,7 @@ public class ListeChainee<T extends Comparable>{
     public void add(T cellule){
         if (isEmpty()) {
             tete= new Maillon<>(cellule, null);
+            size++;
             return;
         }
         Maillon<T> selection = tete;
@@ -20,9 +24,10 @@ public class ListeChainee<T extends Comparable>{
         while (selection.getSuivant()!=null && (selection.getSuivant().getValeur().compareTo(cellule)<=0)) selection=selection.getSuivant();
 
         selection.setSuivant(new Maillon<>(cellule, selection.getSuivant()));
+        size++;
     }
 
-    public ListeChainee<T> groupeCellule(Selection<T> fun){
+    public ListeChainee<T> selection(Selection<T> fun){
         Maillon<T> selection = tete;
         ListeChainee<T> liste = new ListeChainee<>();
         while (selection.getSuivant()!=null){
