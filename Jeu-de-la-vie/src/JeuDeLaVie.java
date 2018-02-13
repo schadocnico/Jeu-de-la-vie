@@ -11,7 +11,7 @@ public class JeuDeLaVie {
             }
         }
         System.out.println(listeChainee);
-        ListeChainee<Couple> listeChainee2 = listeChainee.groupeCellule((o -> {
+        ListeChainee<Couple> listeChainee2 = listeChainee.selection((o -> {
             if (o.getX() >= 0 && o.getX() <= 2)
                 return (o.getY() >= 1 && o.getY() <= 3);
             else return false;
