@@ -13,8 +13,8 @@ public class JeuDeLaVie {
         System.out.println(listeChainee);
         ListeChainee<Couple> listeChainee2 = listeChainee.groupeCellule((o -> {
             if (o.getX() >= 0 && o.getX() <= 2)
-                return (o.getY() >= 1 && o.getY() <= 3)?1:-1;
-            else return -1;
+                return (o.getY() >= 1 && o.getY() <= 3);
+            else return false;
         }));
 
         System.out.println("\n");
