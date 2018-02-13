@@ -1,3 +1,5 @@
+import java.util.Iterator;
+
 public class ListeChainee<T extends Comparable>{
 
     public ListeChainee(){
@@ -9,12 +11,37 @@ public class ListeChainee<T extends Comparable>{
     }
 
     public void add(T cellule){
-        if (isEmpty()) tete.setValeur(cellule);
+        if (isEmpty()) {
+            tete= new Maillon<>(cellule, null);
+            return;
+        }
         Maillon<T> selection = tete;
         //On regarde si le maillon suivant n'est pas null et que la valeur suivante est inferieur
         while (selection.getSuivant()!=null && (selection.getSuivant().getValeur().compareTo(cellule)<=0)) selection=selection.getSuivant();
 
         selection.setSuivant(new Maillon<>(cellule, selection.getSuivant()));
+    }
+
+    public ListeChainee<T> groupeCellule(Comparable<T> fun){
+        Maillon<T> selection = tete;
+        ListeChainee<T> liste = new ListeChainee<>();
+        while (selection.getSuivant()!=null){
+            if(fun.compareTo(selection.valeur)>0)
+                liste.add(selection.valeur);
+            selection = selection.getSuivant();
+        }
+        return liste;
+    }
+
+    @Override
+    public String toString() {
+        Maillon<T> selection = tete;
+        String str = "[";
+        while (selection.getSuivant()!=null){
+            str += " " + selection.valeur;
+            selection = selection.getSuivant();
+        }
+        return str+ " " + selection.getValeur()+ " ]";
     }
 
     //Classe interne Maillon >>>>>>
@@ -44,6 +71,7 @@ public class ListeChainee<T extends Comparable>{
         public Maillon<V> getSuivant() {
             return suivant;
         }
+
     }
     //========
 }
