@@ -2,8 +2,6 @@ import java.util.Iterator;
 
 public class ListeChainee<T extends Comparable>{
 
-    private Maillon<T> tete;
-
     public ListeChainee(){
         this.tete = null;
     }
@@ -47,8 +45,8 @@ public class ListeChainee<T extends Comparable>{
         return str;
     }
 
-
-    private class Maillon<V extends Comparable>{
+    //Classe interne Maillon >>>>>>
+    private class Maillon<V extends Comparable> {
 
         private V valeur;
         private Maillon<V> suivant;
@@ -76,4 +74,5 @@ public class ListeChainee<T extends Comparable>{
         }
 
     }
+    //========
 }
