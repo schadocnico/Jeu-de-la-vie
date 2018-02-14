@@ -11,10 +11,12 @@ public class JeuDeLaVie {
             }
         }
         System.out.println(listeChainee);
+        Couple c1 = new Couple(1,2);
         ListeChainee<Couple> listeChainee2 = listeChainee.selection((o -> {
-            if (o.getX() >= 0 && o.getX() <= 2)
-                return (o.getY() >= 1 && o.getY() <= 3);
-            else return false;
+            if (o.getX() != c1.getX() && o.getY() != c1.getY()){
+                if (o.getX() >= c1.getX()-1 && o.getX() <= c1.getX()+1)
+                    return (o.getY() >= c1.getY()-1 && o.getY() <= c1.getY()+1);
+            } else return false;
         }));
 
         System.out.println("\n");
