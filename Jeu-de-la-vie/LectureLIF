@@ -1,0 +1,79 @@
+package projet;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Scanner;
+
+public class test {
+public static void main(String[] args) {
+		
+	
+try
+{
+	  File f = new File ("AK47.LIF");
+	    FileReader fr = new FileReader (f);
+	    BufferedReader br = new BufferedReader (fr);
+	 
+	    try
+	    {
+	        String line = br.readLine();
+	        int x=0;
+	        int y=0;
+	        int coordonnees=0;
+	        int xdeux =0;
+	        
+	        
+	        while (line != null)
+	        {
+	            //System.out.println (line+ " / " + n);	            
+		        for (int i = 0 ; i < line.length() ;i++) {
+		        	
+		        	if((line.charAt(i) == '#')&&(line.charAt(i+1) == 'P') ) {
+		        		//System.out.println("C'est un #P");
+		        		String coor[]  = line.split(" ");
+		        		x = Integer.parseInt(coor[1]);
+		        		xdeux=x;
+		        		y = Integer.parseInt(coor[2])+1; 
+		        		System.out.println(x);
+		        		System.out.println(y-1);
+		        		//for (int ji = 1 ; ji < coor.length ; ji++)
+		        		//{System.out.println(coor[ji]);
+		        		
+		        		//coordonnees = Integer.parseInt(coor[ji]);
+		        		//System.out.println(coordonnees);
+		        		//}
+		        	}
+		        	
+		        	if(line.charAt(i) == '*') {
+		            System.out.print(line.charAt(i));
+		            System.out.print("(" + x +"/"+ y +")");
+		            }
+		        	x++;}
+		        //System.out.println(" " + y); 
+		        System.out.println("");
+	            line = br.readLine();
+	            y--;
+	           
+				x=xdeux;
+	        }
+	 
+	        br.close();
+	        fr.close();
+	    }
+	    catch (IOException exception)
+	    {
+	        System.out.println ("Erreur lors de la lecture : " + exception.getMessage());
+	    }
+	}
+	catch (FileNotFoundException exception)
+	{
+	    System.out.println ("Le fichier n'a pas été trouvé");
+	}
+}
+}
