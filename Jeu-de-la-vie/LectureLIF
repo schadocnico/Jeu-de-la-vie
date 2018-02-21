@@ -1,14 +1,6 @@
 package projet;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.Scanner;
+import java.io.BufferedReader;import java.io.File;import java.io.File;import java.io.FileInputStream;import java.io.FileNotFoundException;import java.io.FileOutputStream;import java.io.FileReader;import java.io.IOException;import java.util.Scanner;
 
 public class test {
 public static void main(String[] args) {
@@ -16,9 +8,10 @@ public static void main(String[] args) {
 	
 try
 {
-	  File f = new File ("AK47.LIF");     //nom du fichier, pas de chemin car a la racine du projet
-	    FileReader fr = new FileReader (f);
-	    BufferedReader br = new BufferedReader (fr);
+	ListeChainee<Couple>listStart = new ListeChainee<>();  //liste pour enregistrer toutes les positions des *
+	File f = new File ("AK47.LIF");     //nom du fichier, pas de chemin car a la racine du projet
+	FileReader fr = new FileReader (f);
+	BufferedReader br = new BufferedReader (fr);
 	 
 	    try
 	    {
@@ -41,18 +34,20 @@ try
 		        		System.out.println(y-1);
 		        		//rajout d'un continue(2) pour optimiser ?
 		        	}
-		        	else {
-		        		if(line.charAt(i) == '*') {  //si a la lecture caractère par caractère, un * est détecter, il faut enregistrer sa "position"
-		        			System.out.print(line.charAt(i));
-		        			System.out.print("(" + x +"/"+ y +")");
-		        		}
-		        	}
-		        	x++;}
+		        	else{
+		        	if(line.charAt(i) == '*') {  //si a la lecture caractère par caractère, un * est détecter, il faut enregistrer sa "position"
+		            	System.out.print(line.charAt(i));
+		            	System.out.print("(" + x +"/"+ y +")");
+		            
+		            	listStart.add(new Couple(x,y));  //enregistre la position de l' * courante sous forme d'un couple (x,y)
+		            
+		            	}}
+		        x++;}
 		        
 		    System.out.println("");
-	        line = br.readLine();  //passage a la ligne suivante
-	        y--;   
-			x=xdeux;  //remise de x a sa valeur initiale
+	            line = br.readLine();  //passage a la ligne suivante
+	            y--;
+	            x=xdeux;  //remise de x a sa valeur initiale
 	        }
 	 
 	        br.close();
