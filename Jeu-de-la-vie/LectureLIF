@@ -12,55 +12,47 @@ import java.util.Scanner;
 
 public class test {
 public static void main(String[] args) {
-		
+
 	
 try
 {
-	  File f = new File ("AK47.LIF");
+	  File f = new File ("AK47.LIF");     //nom du fichier, pas de chemin car a la racine du projet
 	    FileReader fr = new FileReader (f);
 	    BufferedReader br = new BufferedReader (fr);
 	 
 	    try
 	    {
-	        String line = br.readLine();
-	        int x=0;
+	        String line = br.readLine();  //pour lire le fichier ligne à ligne
+	        int x=0;  
 	        int y=0;
-	        int coordonnees=0;
-	        int xdeux =0;
+	        int xdeux =0; //variable pour enregistrer x plus tard
 	        
-	        
-	        while (line != null)
-	        {
-	            //System.out.println (line+ " / " + n);	            
-		        for (int i = 0 ; i < line.length() ;i++) {
+	        while (line != null)  //readLine renvoi null quand il n'y a plus de ligne a lire dans le fichier(ce qui permet del ire le fichier ligne a ligne)
+	        {	            
+		        for (int i = 0 ; i < line.length() ;i++) {  //pour parcourir la ligne courante(line) caractère par caractère
 		        	
-		        	if((line.charAt(i) == '#')&&(line.charAt(i+1) == 'P') ) {
-		        		//System.out.println("C'est un #P");
-		        		String coor[]  = line.split(" ");
-		        		x = Integer.parseInt(coor[1]);
-		        		xdeux=x;
-		        		y = Integer.parseInt(coor[2])+1; 
+		        	if((line.charAt(i) == '#')&&(line.charAt(i+1) == 'P') ) {   //Dans le format LIF si la ligne commence par #P cela annonce la position initale du prochain pattern
+		        		
+		        		String coor[]  = line.split(" ");   //permet de découper la ligne courante, pour récupérer seulement la dite position
+		        		x = Integer.parseInt(coor[1]);  //split renvoi un string, mais nous avons besoin d'un int pour effectuer des opérations élémentaires, simple converstion String --> int
+		        		xdeux=x;  //enregistrement de la valeur x, car elle sera incrémentée plus tard mais nous avons besoin de sa valeur de base a chaque nouvelle itération du while
+		        		y = Integer.parseInt(coor[2])+1;  
 		        		System.out.println(x);
 		        		System.out.println(y-1);
-		        		//for (int ji = 1 ; ji < coor.length ; ji++)
-		        		//{System.out.println(coor[ji]);
-		        		
-		        		//coordonnees = Integer.parseInt(coor[ji]);
-		        		//System.out.println(coordonnees);
-		        		//}
+		        		//rajout d'un continue(2) pour optimiser ?
 		        	}
-		        	
-		        	if(line.charAt(i) == '*') {
-		            System.out.print(line.charAt(i));
-		            System.out.print("(" + x +"/"+ y +")");
-		            }
+		        	else {
+		        		if(line.charAt(i) == '*') {  //si a la lecture caractère par caractère, un * est détecter, il faut enregistrer sa "position"
+		        			System.out.print(line.charAt(i));
+		        			System.out.print("(" + x +"/"+ y +")");
+		        		}
+		        	}
 		        	x++;}
-		        //System.out.println(" " + y); 
-		        System.out.println("");
-	            line = br.readLine();
-	            y--;
-	           
-				x=xdeux;
+		        
+		    System.out.println("");
+	        line = br.readLine();  //passage a la ligne suivante
+	        y--;   
+			x=xdeux;  //remise de x a sa valeur initiale
 	        }
 	 
 	        br.close();
