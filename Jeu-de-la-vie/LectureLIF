@@ -32,8 +32,9 @@ try
 		        		y = Integer.parseInt(coor[2])+1;  
 		        		System.out.println(x);
 		        		System.out.println(y-1);
-		        		//rajout d'un continue(2) pour optimiser ?
-		        	}
+		        		break;  //permet de sortir du for, pour ne pas évaluer les autre caractère de cette ligne(economie de ressources) car une ligne commencanr par #P est un cas spécial, pas besoin de lire chaque caractère
+		        			// pour passer directement a la prochaine ligne
+				}
 		        	else{
 		        	if(line.charAt(i) == '*') {  //si a la lecture caractère par caractère, un * est détecter, il faut enregistrer sa "position"
 		            	System.out.print(line.charAt(i));
