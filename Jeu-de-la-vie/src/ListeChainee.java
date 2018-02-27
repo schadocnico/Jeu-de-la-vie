@@ -24,6 +24,22 @@ public class ListeChainee<T extends Comparable>{
         this.selection = null;
         this.size=0;
     }
+    
+    public Maillon<T> getTete(){
+        return this.tete;
+    }
+
+    public boolean contains(T element){ // cherche si la liste contient l'element en parametre
+        Maillon<T> courant= this.tete;
+        while (courant != null){
+            if(courant.getValeur().equals(element.getValeur())){
+                return true;
+            } else {
+                courant = courant.getSuivant();
+            }
+        }
+        return false;
+    }
 
     /**
      * Retourne un <B>True</B> si la liste est vide sinon <B>False</B>.
