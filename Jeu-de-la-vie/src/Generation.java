@@ -2,15 +2,13 @@ import java.util.Iterator;
 
 public class Generation {
 
-    private ListeChainee<Couple> list = new ListeChainee();
-
     private ListeChainee<Couple> newGeneration(ListeChainee<Couple> list){
 
         ListeChainee<Couple> newGeneration = new ListeChainee<>();
         Couple ATester = list.getTete().getValeur();
         //on effectue la recherche du nombre de voisin pour ATester
 
-        Iterator it = this.list.iterator();
+        Iterator it = list.iterator();
         while (it.hasNext()) {
 
             int nbVoisin = 0;
