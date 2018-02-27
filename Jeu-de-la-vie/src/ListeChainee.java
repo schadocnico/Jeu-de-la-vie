@@ -33,10 +33,12 @@ public class ListeChainee<T extends Comparable>{
         return this.tete == null;
     }
 
-    /**
-     *  Ajoute à la liste chainée un élément <B>T</B> dans l'ordre croissant.
-     * @param cellule
-     */
+   /**
+     * Ajoute un objet à la liste chainée. L'ajout se fait par ordre croissant.
+     *
+     * @param T l'objet a ajouter
+    **/
+
     public void add(T cellule){
         if (isEmpty()) {
             this.tete = new Maillon<>(cellule, null);
@@ -56,6 +58,7 @@ public class ListeChainee<T extends Comparable>{
      * @param fun
      * @return une ListeChainee
      */
+
     public ListeChainee<T> selection(Selection<T> fun){
         Maillon<T> selection = tete;
         ListeChainee<T> liste = new ListeChainee<>();
