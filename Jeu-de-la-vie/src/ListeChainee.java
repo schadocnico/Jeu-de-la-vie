@@ -14,33 +14,14 @@ import java.util.NoSuchElementException;
 public class ListeChainee<T extends Comparable>{
     private Maillon tete;
     private int size;
-    private Maillon selection;
 
     /**
      *  Construit une liste vide.
      */
     public ListeChainee(){
         this.tete = null;
-        this.selection = null;
         this.size=0;
     }
-    
-    public Maillon<T> getTete(){
-        return this.tete;
-    }
-
-    public boolean contains(T element){ // cherche si la liste contient l'element en parametre
-        Maillon<T> courant= this.tete;
-        while (courant != null){
-            if(courant.getValeur().equals(element.getValeur())){
-                return true;
-            } else {
-                courant = courant.getSuivant();
-            }
-        }
-        return false;
-    }
-
     /**
      * Retourne un <B>True</B> si la liste est vide sinon <B>False</B>.
      * @return
@@ -49,11 +30,11 @@ public class ListeChainee<T extends Comparable>{
         return this.tete == null;
     }
 
-   /**
+    /**
      * Ajoute un objet à la liste chainée. L'ajout se fait par ordre croissant.
      *
-     * @param T l'objet a ajouter
-    **/
+     * @param cellule l'objet a ajouter
+     **/
 
     public void add(T cellule){
         if (isEmpty()) {
@@ -113,6 +94,7 @@ public class ListeChainee<T extends Comparable>{
         public Itr(){
             maillon_cursor = ListeChainee.this.tete;
         }
+
         @Override
         public boolean hasNext() {
             return maillon_cursor != null;
