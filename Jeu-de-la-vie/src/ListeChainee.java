@@ -1,3 +1,4 @@
+import java.lang.annotation.ElementType;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -11,8 +12,9 @@ import java.util.NoSuchElementException;
  * @see java.util.Comparator
  * @param <T>
  */
-public class ListeChainee<T extends Comparable>{
+public class ListeChainee<T extends Comparable>{ // A CHAGER EN <T>, COMMENT SAVOIR QUE T IMPLEMENTE COMPARABLE?
     private Maillon tete;
+    private Maillon last;
     private int size;
 
     /**
@@ -20,6 +22,7 @@ public class ListeChainee<T extends Comparable>{
      */
     public ListeChainee(){
         this.tete = null;
+        this.last = null;
         this.size=0;
     }
     /**
@@ -39,6 +42,7 @@ public class ListeChainee<T extends Comparable>{
     public void add(T cellule){
         if (isEmpty()) {
             this.tete = new Maillon<>(cellule, null);
+            this.last = this.tete;
             this.size++;
             return;
         }
@@ -47,6 +51,8 @@ public class ListeChainee<T extends Comparable>{
         while (selection.getSuivant()!=null && (selection.getSuivant().getValeur().compareTo(cellule)<=0)) selection=selection.getSuivant();
 
         selection.setSuivant(new Maillon<>(cellule, selection.getSuivant()));
+        if (selection.getSuivant() == null)
+            this.last = selection;
         size++;
     }
 
@@ -65,6 +71,22 @@ public class ListeChainee<T extends Comparable>{
             selection = selection.getSuivant();
         }
         return liste;
+    }
+
+    public T premierElement(){
+        if (tete == null)
+            throw new IllegalArgumentException();
+        return (T) this.tete.getValeur();
+    }
+
+    public T dernierElement(){
+        if (last == null)
+            throw new IllegalArgumentException();
+        return (T) this.last.getValeur();
+    }
+
+    public int getSize() {
+        return size;
     }
 
     @Override
