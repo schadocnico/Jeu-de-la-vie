@@ -15,26 +15,27 @@ public class Generation {
 
          for (int i = -1; i <= 1; i++) {
                 for (int j = -1; j <= 1; j++) {
-                    int nbVoisin = 0;
 
-                    if (i != 0 && j != 0) { //i=0 j=0 correspond au Couple ATester
                         Couple ATester = new Couple(reference.getX() + i, reference.getY() + j);
 
-                        for (int k = -1; k <= 1; k++) {
-                            for (int l = -1; l <= 1; l++) {
-                                Couple voisin = new Couple(ATester.getX() +k, ATester.getY() +l);
-                                if (i != 0 && j != 0 && list.contains(voisin) == true) {
-                                    nbVoisin += 1;
-                                }
-                            }
+
+                        ListeChainee<Couple> listeChainee2 = list.selection((o -> {
+                                     if (o.getX() == ATester.getX()-1 || o.getX() == ATester.getX()+1 || o.getX() == ATester.getX())
+                                         return (o.getY() == ATester.getY()-1 || o.getY() == ATester.getY()+1 || o.getY() == ATester.getY();
+                                     else return false;
+                                     }));
+
+                        int size=listeChainee2.getSize();
+                        if (reference.equals(ATester))
+                            size--;
+
+                        if (size >= 2 && size<=3) {
+                               newGeneration.add(ATester);
+                             //la cellule possede au moins 2 voisins, il y a donc une naissance sur cette case
                         }
 
-                        if (nbVoisin >= 2) {
-                            newGeneration.add(ATester);
-                            //la cellule possede au moins 2 voisins, il y a donc une naissance sur cette case
-                        }
 
-                    } 
+
                 }
             }
 
