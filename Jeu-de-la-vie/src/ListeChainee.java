@@ -72,6 +72,15 @@ public class ListeChainee<T extends Comparable>{ // A CHAGER EN <T>, COMMENT SAV
         }
         return liste;
     }
+    
+    public boolean contains(T elem){
+        Maillon<T> selection = this.tete;
+        while (selection.getSuivant()!=null){
+            if(selection.getValeur().equals(elem))
+                return true;
+        }
+        return false;
+    }
 
     public T premierElement(){
         if (tete == null)
