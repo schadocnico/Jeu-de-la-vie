@@ -5,7 +5,8 @@ public class Generation {
     private ListeChainee<Couple> newGeneration(ListeChainee<Couple> list){
 
         ListeChainee<Couple> newGeneration = new ListeChainee<>();
-        Couple reference = list.getTete().getValeur();
+        ListeChainee<Couple> dejaFait = new ListeChainee<>();
+        Couple reference = list.premierElement();
         //on va se servir d'un maillon de reference pour gerer les naissance des cellules vides aux alentours de celle-ci
         //les cellules de "references" sont les cellules de la liste initiale
 
@@ -18,6 +19,8 @@ public class Generation {
 
                         Couple ATester = new Couple(reference.getX() + i, reference.getY() + j);
 
+                        if (dejaFait.contains(ATester) != true){
+                        dejaFait.add(ATester); // on exclut les couples dont on a deja verifié les alentours pour le prochain tour de boucle
 
                         ListeChainee<Couple> listeChainee2 = list.selection((o -> {
                                      if (o.getX() == ATester.getX()-1 || o.getX() == ATester.getX()+1 || o.getX() == ATester.getX())
@@ -35,8 +38,10 @@ public class Generation {
                         }
 
 
+                        }
 
-                }
+                      } //if
+
             }
 
             reference = (Couple)it.next() ;
