@@ -2,7 +2,7 @@ import java.util.Iterator;
 
 public class Generation {
 
-    private ListeChainee<Couple> newGeneration(ListeChainee<Couple> list){
+    public ListeChainee<Couple> newGeneration(ListeChainee<Couple> list){
 
         ListeChainee<Couple> newGeneration = new ListeChainee<>();
         ListeChainee<Couple> dejaFait = new ListeChainee<>();
