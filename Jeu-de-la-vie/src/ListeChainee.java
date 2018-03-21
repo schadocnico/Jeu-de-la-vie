@@ -65,19 +65,21 @@ public class ListeChainee<T extends Comparable>{ // A CHAGER EN <T>, COMMENT SAV
     public ListeChainee<T> selection(Selection<T> fun){
         Maillon<T> selection = tete;
         ListeChainee<T> liste = new ListeChainee<>();
-        while (selection.getSuivant()!=null){
+        while (selection!=null){
             if(fun.compareTo(selection.getValeur()))
                 liste.add(selection.getValeur());
             selection = selection.getSuivant();
         }
         return liste;
     }
-    
+
     public boolean contains(T elem){
         Maillon<T> selection = this.tete;
-        while (selection.getSuivant()!=null){
+        if (this.size==0) {return false;}
+        while (selection!=null){
             if(selection.getValeur().equals(elem))
                 return true;
+            selection = selection.getSuivant();
         }
         return false;
     }
@@ -102,6 +104,7 @@ public class ListeChainee<T extends Comparable>{ // A CHAGER EN <T>, COMMENT SAV
     public String toString() {
         Maillon<T> selection = tete;
         String str = "[";
+        if (selection==null) return str+"]";
         while (selection.getSuivant()!=null){
             str += " " + selection.getValeur();
             selection = selection.getSuivant();

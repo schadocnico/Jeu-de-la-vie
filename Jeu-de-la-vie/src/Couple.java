@@ -26,6 +26,11 @@ public class Couple implements Comparable<Couple>{
     }
 
     @Override
+    public boolean equals(Object obj) {
+        return ((Couple)obj).getX()==this.getX() && ((Couple)obj).getY()==this.getY();
+    }
+
+    @Override
     public String toString() {
         return "(" + x + "," + y +")";
     }

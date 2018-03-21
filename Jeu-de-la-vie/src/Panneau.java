@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 
 public class Panneau extends JPanel {
     private ListeChainee<Couple> list = new ListeChainee();
-    private int taille_cellule = 5;
+    private int taille_cellule = 10; // VARIER SELON LE NOMBRE DE CELLULE D'UNE GENERATION ???
 
     public Panneau() {
     }
