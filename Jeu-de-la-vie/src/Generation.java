@@ -32,7 +32,8 @@ public class Generation {
                         if (reference.equals(ATester))
                             size--;
 
-                        if (size >= 2 && size<=3) {
+                        if (size ==2 || (size==3 && list.contains(ATester))){
+                            
                                newGeneration.add(ATester);
                              //la cellule possede au moins 2 voisins, il y a donc une naissance sur cette case
                         }
