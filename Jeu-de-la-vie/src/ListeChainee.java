@@ -1,4 +1,6 @@
 import java.lang.annotation.ElementType;
+import java.lang.reflect.InvocationTargetException;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -12,7 +14,7 @@ import java.util.NoSuchElementException;
  * @see java.util.Comparator
  * @param <T>
  */
-public class ListeChainee<T extends Comparable>{ // A CHAGER EN <T>, COMMENT SAVOIR QUE T IMPLEMENTE COMPARABLE?
+public class ListeChainee<T extends Comparable> implements Copy<ListeChainee<T>>{ // A CHAGER EN <T>, COMMENT SAVOIR QUE T IMPLEMENTE COMPARABLE?
     private Maillon tete;
     private Maillon last;
     private int size;
@@ -33,27 +35,90 @@ public class ListeChainee<T extends Comparable>{ // A CHAGER EN <T>, COMMENT SAV
         return this.tete == null;
     }
 
-    /**
-     * Ajoute un objet à la liste chainée. L'ajout se fait par ordre croissant.
-     *
-     * @param cellule l'objet a ajouter
-     **/
+
 
     public void add(T cellule){
         if (isEmpty()) {
-            this.tete = new Maillon<>(cellule, null);
+            this.tete = new Maillon<T>(cellule, null);
             this.last = this.tete;
             this.size++;
             return;
         }
         Maillon<T> selection = tete;
-        //On regarde si le maillon suivant n'est pas null et que la value suivante est inferieur
-        while (selection.getSuivant()!=null && (selection.getSuivant().getValeur().compareTo(cellule)<=0)) selection=selection.getSuivant();
 
-        selection.setSuivant(new Maillon<>(cellule, selection.getSuivant()));
+        if (tete.getValeur().compareTo(cellule)>0){
+            this.tete = new Maillon<T>(cellule, tete.getSuivant());
+            return;
+        } else if (tete.getValeur().equals(cellule)){
+            ((Addition) tete.getValeur()).addition(cellule);
+            return;
+        }
+        //On regarde si le maillon suivant n'est pas null et que la value suivante est inferieur
+        while (selection.getSuivant()!=null && (selection.getSuivant().getValeur().compareTo(cellule)<0)){
+            if (selection.getValeur().equals(cellule)) {
+                ((Addition) selection.getValeur()).addition(cellule);
+                return;
+            }
+            selection=selection.getSuivant();
+        }
+        if (selection.getSuivant()!=null && selection.getSuivant().getValeur().equals(cellule)) {
+            ((Addition) selection.getSuivant().getValeur()).addition(cellule);
+            return;
+        }
+        selection.setSuivant(new Maillon(cellule, selection.getSuivant()));
         if (selection.getSuivant() == null)
             this.last = selection;
         size++;
+    }
+
+
+    public void ajouter(ListeChainee<T> list, int a){
+        Iterator it = list.iterator();
+        while (it.hasNext()){
+            Addition next = (Addition) it.next();
+            next.addition(a);
+        }
+    }
+
+    public ListeChainee<T> copy(){
+        if (isEmpty()) return null;
+        ListeChainee<T> list = new ListeChainee<>();
+        list.size = this.size;
+
+        Maillon<T> selection = new Maillon((T) ((Copy) tete.getValeur()).copy(), null);
+        list.tete = selection;
+        Maillon<T> suivant = this.tete.getSuivant();
+        Maillon<T> newSuivant = null;
+        while (suivant != null){
+            newSuivant = new Maillon((T) ((Copy) suivant.getValeur()).copy(), null);
+            selection.setSuivant(newSuivant);
+            selection = newSuivant;
+            suivant = suivant.getSuivant();
+        }
+        list.last = newSuivant;
+
+        // on renvoie le clone
+        return list;
+
+    }
+
+    public ListeChainee<T> supprimer(Selection<T> fun){
+        while (fun.compare((T) tete.getValeur())){
+            tete = tete.getSuivant();
+        }
+        Maillon<T> pre = tete;
+        Maillon<T> selection = tete.getSuivant();
+        ListeChainee<T> liste = new ListeChainee<>();
+        while (selection!=null){
+            if(fun.compare(selection.getValeur())){
+                pre.setSuivant(selection.getSuivant());
+                selection = tete.getSuivant();
+            }else {
+                pre = selection;
+                selection = selection.getSuivant();
+            }
+        }
+        return liste;
     }
 
     /**
@@ -61,12 +126,11 @@ public class ListeChainee<T extends Comparable>{ // A CHAGER EN <T>, COMMENT SAV
      * @param fun
      * @return une ListeChainee
      */
-
     public ListeChainee<T> selection(Selection<T> fun){
         Maillon<T> selection = tete;
         ListeChainee<T> liste = new ListeChainee<>();
         while (selection!=null){
-            if(fun.compareTo(selection.getValeur()))
+            if(fun.compare(selection.getValeur()))
                 liste.add(selection.getValeur());
             selection = selection.getSuivant();
         }
@@ -145,7 +209,7 @@ public class ListeChainee<T extends Comparable>{ // A CHAGER EN <T>, COMMENT SAV
     }
 
     // inner class Maillon >>>>>>
-    private class Maillon<T extends Comparable> {
+    private class Maillon<T extends Comparable>{
 
         private T value;
         private Maillon<T> next;
@@ -170,6 +234,7 @@ public class ListeChainee<T extends Comparable>{ // A CHAGER EN <T>, COMMENT SAV
         public Maillon<T> getSuivant() {
             return next;
         }
+
 
     }
     //========
