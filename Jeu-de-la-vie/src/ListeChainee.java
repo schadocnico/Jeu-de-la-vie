@@ -147,10 +147,9 @@ public class ListeChainee<T extends Comparable> implements Copy<ListeChainee<T>>
         ListeChainee<T> list = (ListeChainee<T>)o;
         Iterator<T> it = ((ListeChainee<T>) o).iterator();
         Iterator<T> it2 = this.iterator();
-
+        if (((ListeChainee<T>) o).getSize()!=this.getSize())
+            return false;
         while (it.hasNext()){
-            if (!it2.hasNext())
-                return false;
             if (!it.next().equals(it2.next()))
                 return false;
         }
