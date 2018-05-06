@@ -23,6 +23,10 @@ public class Couple implements Comparable<Couple>, Addition<Object>, Copy<Couple
         this.x=x;
     }
 
+    /**
+     *  Retourne le position de Y d'une cellule.
+     * @return un int
+     */
     public int getY() {
         return y;
     }
