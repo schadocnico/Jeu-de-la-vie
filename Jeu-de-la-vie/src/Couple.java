@@ -30,25 +30,41 @@ public class Couple implements Comparable<Couple>, Addition<Object>, Copy<Couple
     public int getX() {
         return x;
     }
-
+    
+    /**
+     *  Change la valeur X d'une cellule.
+     * @param x
+     */
     public void setX(int x) {
         this.x=x;
     }
 
     /**
-     *  Retourne le position de Y d'une cellule.
+     *  Retourne le position Y d'une cellule.
      * @return un int
      */
     public int getY() {
         return y;
     }
 
+    /**
+     *  Change la valeur de Y d'une cellule.
+     * @param y
+     */
     public void setY(int y) {
         this.y=y;
     }
 
+    /**
+     *  Retourne le position le nombre de voisins d'une cellule.
+     * @return un int
+     */
     public int getNbVoisins(){return nbVoisins;}
 
+    /**
+     *  Change la valeur du nombre de voisins pour une cellule.
+     * @param nbVoisins
+     */
     public void setNbVoisins(int nbVoisins){this.nbVoisins = nbVoisins;}
 
     @Override
