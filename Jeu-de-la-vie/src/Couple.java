@@ -67,11 +67,7 @@ public class Couple implements Comparable<Couple>, Addition<Object>, Copy<Couple
      */
     public void setNbVoisins(int nbVoisins){this.nbVoisins = nbVoisins;}
 
-    /**
-     *  Methode compareTo.
-     * @param o
-     * @return un int
-     */
+   
     @Override
     public int compareTo(Couple o) {
         if (this.x==o.getX()){
@@ -79,20 +75,13 @@ public class Couple implements Comparable<Couple>, Addition<Object>, Copy<Couple
         } else return this.x-o.getX();
     }
 
-    /**
-     *  Methode equals.
-     * @param obj
-     * @return un boolean
-     */
+   
     @Override
     public boolean equals(Object obj) {
         return ((Couple)obj).getX()==this.getX() && ((Couple)obj).getY()==this.getY();
     }
 
-    /**
-     *  Methode toString.
-     * @return un String
-     */
+  
     @Override
     public String toString() {
         return "(" + x + "," + y + "," + nbVoisins +")";
