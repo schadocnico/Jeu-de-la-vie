@@ -4,7 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;import java.io.IOException;
 
 public class Liff {
-    public static ListeChainee<Couple> lecture(String name) {
+    public static ListeChainee<Couple> lecture(String name) throws IOException {
         ListeChainee<Couple>listStart = new ListeChainee<>();  //liste pour enregistrer toutes les positions des *
         try
         {
@@ -29,22 +29,22 @@ public class Liff {
                             x = Integer.parseInt(coor[1]);  //split renvoi un string, mais nous avons besoin d'un int pour effectuer des opérations élémentaires, simple converstion String --> int
                             xdeux=x;  //enregistrement de la valeur x, car elle sera incrémentée plus tard mais nous avons besoin de sa valeur de base a chaque nouvelle itération du while
                             y = Integer.parseInt(coor[2])+1;
-                            System.out.println(x);
-                            System.out.println(y-1);
+                            //System.out.println(x);
+                            //System.out.println(y-1);
                             break;  //permet de sortir du for, pour ne pas évaluer les autre caractère de cette ligne(economie de ressources) car une ligne commencanr par #P est un cas spécial, pas besoin de lire chaque caractère
                             // pour passer directement a la prochaine ligne
                         }
                         else{
                             if(line.charAt(i) == '*') {  //si a la lecture caractère par caractère, un * est détecter, il faut enregistrer sa "position"
-                                System.out.print(line.charAt(i));
-                                System.out.print("(" + x +"/"+ y +")");
+                                //System.out.print(line.charAt(i));
+                                //System.out.print("(" + x +"/"+ y +")");
 
                                 listStart.add(new Couple(x,y));  //enregistre la position de l' * courante sous forme d'un couple (x,y)
 
                             }}
                         x++;}
 
-                    System.out.println("");
+                    //System.out.println("");
                     line = br.readLine();  //passage a la ligne suivante
                     y--;
                     x=xdeux;  //remise de x a sa valeur initiale
@@ -55,14 +55,14 @@ public class Liff {
             }
             catch (IOException exception)
             {
-                System.out.println ("Erreur lors de la lecture : " + exception.getMessage());
+                throw new IOException("Erreur lors de la lecture");
             }
         }
         catch (FileNotFoundException exception)
         {
-            System.out.println ("Le fichier n'a pas été trouvé");
+            throw new FileNotFoundException("Le fichier n'a pas été trouvé.");
         }
-
+        listStart = Generation2.calculeVoisins(listStart);// A LAISSER, PREMIER CALCULE
         return listStart;
     }
 }

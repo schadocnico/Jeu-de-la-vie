@@ -4,7 +4,7 @@ public class Generation2 {
 
     public static ListeChainee<Couple> newGeneration(ListeChainee<Couple> list){
         if (list==null || list.isEmpty())
-            return new ListeChainee<Couple>();
+            return new ListeChainee<>();
         ListeChainee<Couple> newList = list.copy();
 
         Iterator<Couple> it = list.iterator();
@@ -42,8 +42,6 @@ public class Generation2 {
         ListeChainee<Couple> voisins = new ListeChainee<>();
         while (it.hasNext()){
             Couple ATester = it.next();
-
-            //System.out.println(ATester);
             for (int i = -1; i <= 1; i++) {
                 for (int j = -1; j <= 1; j++) {
                     if (i!=0 || j!=0 ){
@@ -51,13 +49,10 @@ public class Generation2 {
                     } else {
                         voisins.add(new Couple(ATester.getX(), ATester.getY(), 10));
                     }
-
-                    //System.out.println("("+i+j+")"+voisins);
                 }
             }
 
         }
-        //System.out.println("ADD:: " + voisins);
         return voisins;
 
     }

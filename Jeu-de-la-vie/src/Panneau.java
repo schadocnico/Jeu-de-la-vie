@@ -1,6 +1,6 @@
-/**
- * Created by nicolas.schad on 27/02/2018
- **/
+/*
+  Created by nicolas.schad on 27/02/2018
+ */
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.Iterator;
@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 
 public class Panneau extends JPanel {
     private ListeChainee<Couple> list = new ListeChainee();
-    private int taille_cellule = 2; // VARIER SELON LE NOMBRE DE CELLULE D'UNE GENERATION ???
+    private int taille_cellule = 10; // VARIER SELON LE NOMBRE DE CELLULE D'UNE GENERATION ???
 
     public Panneau() {
     }
@@ -25,13 +25,9 @@ public class Panneau extends JPanel {
         g.drawLine(0, middle_y - 1, this.getWidth(), middle_y - 1);
 
         int y;
-        for(y = 0; y <= this.getWidth(); y += this.taille_cellule + 1) {
-            g.drawLine(y, 0, y, this.getHeight());
-        }
+        for(y = 0; y <= this.getWidth(); y += this.taille_cellule + 1) g.drawLine(y, 0, y, this.getHeight());
 
-        for(y = 0; y <= this.getHeight(); y += this.taille_cellule + 1) {
-            g.drawLine(0, y, this.getWidth(), y);
-        }
+        for(y = 0; y <= this.getHeight(); y += this.taille_cellule + 1) g.drawLine(0, y, this.getWidth(), y);
 
         g.setColor(Color.white);
         Iterator it = this.list.iterator();
@@ -52,10 +48,6 @@ public class Panneau extends JPanel {
 
     private int round(int nb) {
         return nb - nb % (this.taille_cellule + 1);
-    }
-
-    public ListeChainee getList() {
-        return this.list;
     }
 
     public void setList(ListeChainee<Couple> list) {

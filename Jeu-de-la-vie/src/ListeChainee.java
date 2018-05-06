@@ -1,6 +1,3 @@
-import java.lang.annotation.ElementType;
-import java.lang.reflect.InvocationTargetException;
-import java.util.Comparator;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -35,8 +32,6 @@ public class ListeChainee<T extends Comparable> implements Copy<ListeChainee<T>>
         return this.tete == null;
     }
 
-
-
     public void add(T cellule){
         if (isEmpty()) {
             this.tete = new Maillon<T>(cellule, null);
@@ -47,7 +42,8 @@ public class ListeChainee<T extends Comparable> implements Copy<ListeChainee<T>>
         Maillon<T> selection = tete;
 
         if (tete.getValeur().compareTo(cellule)>0){
-            this.tete = new Maillon<T>(cellule, tete.getSuivant());
+            this.tete = new Maillon<T>(cellule, tete);
+            size++;
             return;
         } else if (tete.getValeur().equals(cellule)){
             ((Addition) tete.getValeur()).addition(cellule);
@@ -69,15 +65,6 @@ public class ListeChainee<T extends Comparable> implements Copy<ListeChainee<T>>
         if (selection.getSuivant() == null)
             this.last = selection;
         size++;
-    }
-
-
-    public void ajouter(ListeChainee<T> list, int a){
-        Iterator it = list.iterator();
-        while (it.hasNext()){
-            Addition next = (Addition) it.next();
-            next.addition(a);
-        }
     }
 
     public ListeChainee<T> copy(){
@@ -102,9 +89,14 @@ public class ListeChainee<T extends Comparable> implements Copy<ListeChainee<T>>
 
     }
 
-    public ListeChainee<T> supprimer(Selection<T> fun){
+    public void supprimer(Selection<T> fun){
+        if (this.tete==null)
+            return;
         while (fun.compare((T) tete.getValeur())){
+            if (tete.getSuivant()==null)
+                return;
             tete = tete.getSuivant();
+            size--;
         }
         Maillon<T> pre = tete;
         Maillon<T> selection = tete.getSuivant();
@@ -113,39 +105,12 @@ public class ListeChainee<T extends Comparable> implements Copy<ListeChainee<T>>
             if(fun.compare(selection.getValeur())){
                 pre.setSuivant(selection.getSuivant());
                 selection = tete.getSuivant();
+                size--;
             }else {
                 pre = selection;
                 selection = selection.getSuivant();
             }
         }
-        return liste;
-    }
-
-    /**
-     *  Retourne une <B>ListeChainee</B> qui répertorie tous les éléments dont l'interface retourne Vrai.
-     * @param fun
-     * @return une ListeChainee
-     */
-    public ListeChainee<T> selection(Selection<T> fun){
-        Maillon<T> selection = tete;
-        ListeChainee<T> liste = new ListeChainee<>();
-        while (selection!=null){
-            if(fun.compare(selection.getValeur()))
-                liste.add(selection.getValeur());
-            selection = selection.getSuivant();
-        }
-        return liste;
-    }
-
-    public boolean contains(T elem){
-        Maillon<T> selection = this.tete;
-        if (this.size==0) {return false;}
-        while (selection!=null){
-            if(selection.getValeur().equals(elem))
-                return true;
-            selection = selection.getSuivant();
-        }
-        return false;
     }
 
     public T premierElement(){
@@ -177,11 +142,27 @@ public class ListeChainee<T extends Comparable> implements Copy<ListeChainee<T>>
         return str;
     }
 
+    @Override
+    public boolean equals(Object o){
+        ListeChainee<T> list = (ListeChainee<T>)o;
+        Iterator<T> it = ((ListeChainee<T>) o).iterator();
+        Iterator<T> it2 = this.iterator();
+
+        while (it.hasNext()){
+            if (!it2.hasNext())
+                return false;
+            if (!it.next().equals(it2.next()))
+                return false;
+        }
+
+        return true;
+    }
+
     /**
      * Retourne un iterator des elements de la liste.
      * @return un iterator des elements de la liste.
      */
-    public Iterator<T> iterator(){
+    public Itr iterator(){
         return new Itr();
     }
 
