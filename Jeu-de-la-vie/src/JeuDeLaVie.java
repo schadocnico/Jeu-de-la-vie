@@ -97,7 +97,8 @@ public class JeuDeLaVie extends JFrame{
 
     }
 
-    private static Comportement algo(ListeChainee<Couple> list, int max){
+    private static Comportement algo(ListeChainee<Couple> list1, int max){
+        ListeChainee<Couple> list = list1.copy();
         ListeChainee<Couple> list2 = Generation2.newGeneration(list);
         for (int e=0;e<=max;e++){
             list = Generation2.newGeneration(list);
@@ -109,13 +110,16 @@ public class JeuDeLaVie extends JFrame{
             listT.supprimer(((Couple o) -> o.getNbVoisins()<10));
             //System.out.println("List gen " + e + " : " + list);
             //System.out.println("List gen " + e + " : " + list2);
+            if (listT.isEmpty())
+                return Comportement.Mort;
             if (listT.equals(list2T)) {
                 list2 = Generation2.newGeneration(list2);
                 list2T = list2.copy();
                 list2T.supprimer(((Couple o) -> o.getNbVoisins()<10));
-                if (listT.equals(list2T))
-                    return Comportement.Stable;
-                return Comportement.Oscillateur;
+                if (listT.equals(list2T)) {
+                    return calcule(list1, list2, Comportement.Stable);
+                }
+                return calcule(list1, list, Comportement.Oscillateur);
             }
             int listX = listT.premierElement().getX();
             int listY = listT.premierElement().getY();
@@ -138,6 +142,35 @@ public class JeuDeLaVie extends JFrame{
 
         }
         return Comportement.Inconnu;
+    }
+
+    private static Comportement calcule(ListeChainee<Couple> listeBase, ListeChainee<Couple> listeTermine, Comportement c){
+        ListeChainee<Couple> list1 = listeBase.copy();
+        boolean passage = false;
+        int nbPassage = 0;
+        int nbQueue = 1;
+        if (list1.equals(listeTermine)) {
+            passage = true;
+            nbPassage++;
+        }
+        for (int i =0;i<=100;i++){
+            if (list1.equals(listeTermine)){
+                if (passage) break;
+                passage = true;
+                nbPassage++;
+                list1 = Generation2.newGeneration(list1);
+            } else {
+                if (!passage)
+                    nbQueue++;
+                else
+                    nbPassage++;
+                list1 = Generation2.newGeneration(list1);
+            }
+        }
+        //System.out.println(nbPassage + " " + (nbQueue-nbPassage));
+        c.setPeriode(nbPassage);
+        c.setQueue((nbQueue-nbPassage));
+        return c;
     }
 
     public static String[] listerRepertoire(String rep){
