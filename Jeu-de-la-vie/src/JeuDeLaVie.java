@@ -76,8 +76,8 @@ public class JeuDeLaVie extends JFrame{
 
         go(list, nb_generation);
     }
-    
-    
+
+
     private void go(ListeChainee<Couple> list, int nb_generation) {
         System.out.println(list);
         System.out.println(nb_generation);
@@ -121,43 +121,68 @@ public class JeuDeLaVie extends JFrame{
                 }
                 return calcule(list1, list, Comportement.Oscillateur);
             }
-            int listX = listT.premierElement().getX();
-            int listY = listT.premierElement().getY();
-            int list2X = list2T.premierElement().getX();
-            int list2Y = list2T.premierElement().getY();
-            int diffX = listX-list2X;
-            int diffY = listY-list2Y;
 
-            //System.out.println("List gen " + e + " : " + list2T + diffX + ":" + diffY + ";" + listX + ":" + list2X);
-            //System.out.println("List gen " + e + " : " + listT + diffX + ":" + diffY + ";" + listX + ":" + list2X);
-            Iterator<Couple> it = list2T.iterator();
-            while (it.hasNext()){
-                Couple c = it.next();
-                c.setX(c.getX()+diffX);
-                c.setY(c.getY()+diffY);
-            }
+            diff(listT, list2T);
 
             if (listT.equals(list2T))
-                return Comportement.Vaisseau;
+                return calcule(list1, list2, Comportement.Vaisseau);
 
         }
         return Comportement.Inconnu;
     }
 
+    private static Couple diff(ListeChainee<Couple> l1, ListeChainee<Couple> l2){
+        int listX = l1.premierElement().getX();
+        int listY = l1.premierElement().getY();
+        int list2X = l2.premierElement().getX();
+        int list2Y = l2.premierElement().getY();
+        int diffX = listX-list2X;
+        int diffY = listY-list2Y;
+
+        //System.out.println("List gen " + e + " : " + list2T + diffX + ":" + diffY + ";" + listX + ":" + list2X);
+        //System.out.println("List gen " + e + " : " + listT + diffX + ":" + diffY + ";" + listX + ":" + list2X);
+        Iterator<Couple> it = l2.iterator();
+        while (it.hasNext()){
+            Couple c = it.next();
+            c.setX(c.getX()+diffX);
+            c.setY(c.getY()+diffY);
+        }
+
+        return new Couple(diffX,diffY);
+
+    }
+
     private static Comportement calcule(ListeChainee<Couple> listeBase, ListeChainee<Couple> listeTermine, Comportement c){
+        ListeChainee<Couple> listTT = listeTermine.copy();
+        listTT.supprimer(((Couple o) -> o.getNbVoisins()<10));
         ListeChainee<Couple> list1 = listeBase.copy();
+        ListeChainee<Couple> list1T = list1.copy();
+        list1T.supprimer(((Couple o) -> o.getNbVoisins()<10));
+        ListeChainee<Couple> list2T = list1T.copy();
+        diff(listTT,list2T);
         boolean passage = false;
         int nbPassage = 0;
         int nbQueue = 1;
-        if (list1.equals(listeTermine)) {
+        if (list1T.equals(listTT)) {
             passage = true;
             nbPassage++;
         }
+        Couple diff1 = new Couple(0,0);
         for (int i =0;i<=100;i++){
-            if (list1.equals(listeTermine)){
+            list1T = list1.copy();
+            list1T.supprimer(((Couple o) -> o.getNbVoisins()<10));
+            list2T = list1T.copy();
+            Couple diff = diff(listTT,list2T);
+            if (list1T.equals(listTT)){
                 if (passage) break;
                 passage = true;
                 nbPassage++;
+                list1 = Generation2.newGeneration(list1);
+            } else if (listTT.equals(list2T)){
+                if (passage) break;
+                passage = true;
+                nbPassage++;
+                diff1 = diff;
                 list1 = Generation2.newGeneration(list1);
             } else {
                 if (!passage)
@@ -170,6 +195,7 @@ public class JeuDeLaVie extends JFrame{
         //System.out.println(nbPassage + " " + (nbQueue-nbPassage));
         c.setPeriode(nbPassage);
         c.setQueue((nbQueue-nbPassage));
+        c.setDeplacement(diff1);
         return c;
     }
 
