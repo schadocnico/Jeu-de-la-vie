@@ -1,6 +1,6 @@
 /**
- * Created by nicolas.schad on 06/05/2018
- **/
+ * Classe Comportement
+ */
 public enum Comportement {
     //Objets directement construits
     Mort ("Mort : le jeu atteint la configuration sans cellule vivante."),
@@ -14,7 +14,10 @@ public enum Comportement {
     private int periode;
     private Couple deplacement;
 
-    //Constructeur
+    /**
+     *  Constructeur
+     * @param name
+     */
     Comportement(String name){
         this.name = name;
         queue=0;
@@ -22,18 +25,34 @@ public enum Comportement {
         deplacement=new Couple(0,0);
     }
 
+    /**
+     *  Change la valeur de la periode
+     * @param periode
+     */
     public void setPeriode(int periode) {
         this.periode = periode;
     }
 
+    /**
+     *  Change la valeur de la queue
+     * @param queue
+     */
     public void setQueue(int queue) {
         this.queue = queue;
     }
 
+    /**
+     *  Change la valeur du deplacement
+     * @param deplacement
+     */
     public void setDeplacement(Couple deplacement) {
         this.deplacement = deplacement;
     }
 
+    /**
+     *  Methode toString qui retourne la valeur de la queue, de la periode et le déplacement
+     * @return un String
+     */
     public String toString(){
         return name + " Queue : " + queue + " Periode : " + periode + " Deplacement : (" + deplacement.getX() + ","+ deplacement.getY()+")";
     }
