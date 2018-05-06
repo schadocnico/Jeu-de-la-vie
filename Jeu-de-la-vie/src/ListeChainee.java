@@ -89,10 +89,32 @@ public class ListeChainee<T extends Comparable> implements Copy<ListeChainee<T>>
 
     }
 
+    /**
+     *  Retourne une <B>ListeChainee</B> qui répertorie tous les éléments dont l'interface retourne Vrai.
+     * @param fun
+     * @return une ListeChainee
+     */
+    public ListeChainee<T> selection(Selection<T> fun) {
+        Maillon<T> selection = tete;
+        ListeChainee<T> liste = new ListeChainee<>();
+        while (selection != null) {
+            if (fun.compare(selection.getValeur()))
+                liste.add(selection.getValeur());
+            selection = selection.getSuivant();
+        }
+        return liste;
+    }
+
     public void supprimer(Selection<T> fun){
         if (this.tete==null)
             return;
         while (fun.compare((T) tete.getValeur())){
+            if (size==1){
+                tete= null;
+                size = 0;
+                return;
+            }
+
             if (tete.getSuivant()==null)
                 return;
             tete = tete.getSuivant();
@@ -100,7 +122,6 @@ public class ListeChainee<T extends Comparable> implements Copy<ListeChainee<T>>
         }
         Maillon<T> pre = tete;
         Maillon<T> selection = tete.getSuivant();
-        ListeChainee<T> liste = new ListeChainee<>();
         while (selection!=null){
             if(fun.compare(selection.getValeur())){
                 pre.setSuivant(selection.getSuivant());

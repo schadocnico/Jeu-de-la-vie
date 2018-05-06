@@ -31,7 +31,9 @@ public class Panneau extends JPanel {
 
         g.setColor(Color.white);
         Iterator it = this.list.iterator();
-
+        g.setColor(Color.BLUE);
+        g.fillRect(Generation2.gauche * this.taille_cellule + 1 + Generation2.gauche + middle_x, Generation2.haut * this.taille_cellule + 1 + Generation2.haut + middle_x, this.taille_cellule, this.taille_cellule);
+        g.fillRect(Generation2.droite * this.taille_cellule + 1 + Generation2.droite + middle_x, Generation2.bas * this.taille_cellule + 1 + Generation2.bas + middle_x, this.taille_cellule, this.taille_cellule);
         while(it.hasNext()) {
             Couple c = (Couple)it.next();
             if (c.getNbVoisins()>=10){

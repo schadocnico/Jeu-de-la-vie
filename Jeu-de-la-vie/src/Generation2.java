@@ -1,6 +1,11 @@
 import java.util.Iterator;
 
 public class Generation2 {
+    public static int bas;
+    public static int haut;
+    public static int gauche;
+    public static int droite;
+    public static int typeMonde;
 
     public static ListeChainee<Couple> newGeneration(ListeChainee<Couple> list){
         if (list==null || list.isEmpty())
@@ -34,6 +39,7 @@ public class Generation2 {
         }
         if (newList!=null && !(newList.isEmpty()))
             newList.supprimer(((Couple o) -> o.getNbVoisins()<=0));
+        maj(newList);
         return newList;
     }
 
@@ -53,8 +59,26 @@ public class Generation2 {
             }
 
         }
+        maj(voisins);
         return voisins;
 
+    }
+
+    public static void maj(ListeChainee<Couple> list){
+        if (typeMonde==0) return;
+        if (typeMonde==1){
+            list.supprimer((Couple o) -> o.getX()<gauche || o.getY()<bas || o.getY()>haut || o.getX()>droite);
+        } else if (typeMonde==2){
+            ListeChainee<Couple> list2 = list.selection((Couple o) -> o.getX()==gauche+1 || o.getY()==bas-1);
+            int diffX = gauche-droite;
+            int diffY = haut-bas;
+            Iterator<Couple> it = list2.iterator();
+            while (it.hasNext()){
+                Couple c = it.next();
+                Couple c1 = new Couple(c.getX()-diffX, c.getY()-diffY,c.getNbVoisins());
+                list.add(c1);
+            }
+        }
     }
 
 }

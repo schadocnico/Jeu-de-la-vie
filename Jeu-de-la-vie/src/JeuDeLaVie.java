@@ -8,58 +8,77 @@ import java.io.File;
  **/
 public class JeuDeLaVie extends JFrame{
     private Panneau pan = new Panneau();
+    public static int typeMonde = 0; //0 infini;1 fini; 2 circulaire
 
-    public static void main(String[] args){
-        if (args.length==0){
+    public static void main(String[] args) {
+        if (args.length == 0) {
             System.err.println("Aucune commande, tapez -h pour connaitre la liste des commandes.");
             return;
         }
-        if(args[0].equals("-name")){
+        if (args[0].equals("-name")) {
             System.out.println("Arnaud Pasquier / Nicolas Schad / Thibaut Maziere");
-        } else if(args[0].equals("-h")){
+        } else if (args[0].equals("-h")) {
             System.out.println(" -name: affiche les noms et prénoms");
             System.out.println(" -h : affiche la liste des options du programme");
             System.out.println(" -s d fichier.lif : exécute une simulation du jeu d une durée d affichant les configurations du jeu avec le numéro de génération");
             System.out.println(" -c max fichier.lif : calcule le type d’évolution du jeu avec ses caractéristiques (taille de la queue, période et déplacement); max représente la durée maximale de simulation pour déduire les résultats du calcul. ");
             System.out.println(" -w max dossier : calcule le type d’évolution de tous les jeux contenus dans le dossier passé en paramètre");
-        } else if (args.length==3) switch (args[0]) {
-            case "-s":
-                ListeChainee<Couple> list;
-                try {
-                    list = Liff.lecture(args[2]);
-                } catch (IOException e) {
-                    System.err.println(e);
-                    return;
+            System.out.println(" Ajouter apres la commande -f pour un monde fini et -c pour un monde circulaire sinon rien pour un monde infinie suivi de 4 coordonées : haut droite bas gauche ");
+        } else if (args.length >= 3){
+            if (args.length == 8){
+                if (args[3].equals("-f")) {
+                    typeMonde = 1;
+                    Generation2.typeMonde=1;
+                } else if (args[3].equals("-c")){
+                    typeMonde = 2;
+                    Generation2.typeMonde=2;
                 }
-                new JeuDeLaVie(list, Integer.parseInt(args[1]));
-                break;
-            case "-c":
-                ListeChainee<Couple> list1;
-                try {
-                    list1 = Liff.lecture(args[2]);
-                } catch (IOException e) {
-                    System.err.println(e);
-                    return;
-                }
-                Comportement c = algo(list1, Integer.parseInt(args[1]));
-                System.out.println(args[2] + " -> " + c);
-                break;
-            case "-w":
-                String[] rep = listerRepertoire(args[2]);
-                for (int i=0;i<rep.length;i++){
-                    ListeChainee<Couple> list2;
+                Generation2.haut = Integer.parseInt(args[4]);
+                Generation2.droite = Integer.parseInt(args[5]);
+                Generation2.bas = Integer.parseInt(args[6]);
+                Generation2.gauche = Integer.parseInt(args[7]);
+
+            }
+            switch (args[0]) {
+                case "-s":
+                    ListeChainee<Couple> list;
                     try {
-                        list2 = Liff.lecture(args[2]+"/"+rep[i]);
+                        list = Liff.lecture(args[2]);
                     } catch (IOException e) {
                         System.err.println(e);
                         return;
                     }
-                    Comportement c1 = algo(list2, Integer.parseInt(args[1]));
-                    System.out.println(rep[i] + " -> " + c1);
-                }
-                break;
-            default:
-                System.err.println("Erreur, tapez -h pour connaitre la liste des commandes.");
+                    System.out.println(Generation2.typeMonde);
+                    new JeuDeLaVie(list, Integer.parseInt(args[1]));
+                    break;
+                case "-c":
+                    ListeChainee<Couple> list1;
+                    try {
+                        list1 = Liff.lecture(args[2]);
+                    } catch (IOException e) {
+                        System.err.println(e);
+                        return;
+                    }
+                    Comportement c = algo(list1, Integer.parseInt(args[1]));
+                    System.out.println(args[2] + " -> " + c);
+                    break;
+                case "-w":
+                    String[] rep = listerRepertoire(args[2]);
+                    for (int i = 0; i < rep.length; i++) {
+                        ListeChainee<Couple> list2;
+                        try {
+                            list2 = Liff.lecture(args[2] + "/" + rep[i]);
+                        } catch (IOException e) {
+                            System.err.println(e);
+                            return;
+                        }
+                        Comportement c1 = algo(list2, Integer.parseInt(args[1]));
+                        System.out.println(rep[i] + " -> " + c1);
+                    }
+                    break;
+                default:
+                    System.err.println("Erreur, tapez -h pour connaitre la liste des commandes.");
+            }
         }
         else {
             System.err.println("Erreur, tapez -h pour connaitre la liste des commandes.");
@@ -88,7 +107,7 @@ public class JeuDeLaVie extends JFrame{
             list = Generation2.newGeneration(list);
             // la pause s'impose
             try {
-                Thread.sleep(500);
+                Thread.sleep(2000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -106,6 +125,8 @@ public class JeuDeLaVie extends JFrame{
             list2 = Generation2.newGeneration(list2);
             ListeChainee<Couple> list2T = list2.copy();
             ListeChainee<Couple> listT = list.copy();
+            if (list2T == null || list2T.isEmpty())
+                return calcule(list1, list2, Comportement.Mort);
             list2T.supprimer(((Couple o) -> o.getNbVoisins()<10));
             listT.supprimer(((Couple o) -> o.getNbVoisins()<10));
             //System.out.println("List gen " + e + " : " + list);
@@ -153,6 +174,15 @@ public class JeuDeLaVie extends JFrame{
     }
 
     private static Comportement calcule(ListeChainee<Couple> listeBase, ListeChainee<Couple> listeTermine, Comportement c){
+        if (listeTermine == null || listeTermine.isEmpty()) {
+            int nbPassage = 0;
+            while (listeBase != null && !listeBase.isEmpty()){
+                listeBase = Generation2.newGeneration(listeBase);
+                nbPassage++;
+            }
+            c.setQueue(nbPassage);
+            return c;
+        }
         ListeChainee<Couple> listTT = listeTermine.copy();
         listTT.supprimer(((Couple o) -> o.getNbVoisins()<10));
         ListeChainee<Couple> list1 = listeBase.copy();
