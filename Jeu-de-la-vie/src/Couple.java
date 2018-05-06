@@ -13,7 +13,6 @@ public class Couple implements Comparable<Couple>, Addition<Object>, Copy<Couple
      *  Cree un couple avec une valeur X et Y ainsi qu'un nombre de voisins égal à zero.
      * @param x
      * @param y
-     * @param nbVoisins
      */
     public Couple(int x, int y){
         this(x,y,0);
