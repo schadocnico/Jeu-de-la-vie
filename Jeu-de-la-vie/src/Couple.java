@@ -1,21 +1,29 @@
 /**
- * Created by nicolas.schad on 13/02/2018
- **/
+ * Classe d'un Couple.
+ * @see 
+ * @see 
+ * @param 
+ */
 public class Couple implements Comparable<Couple>, Addition<Object>, Copy<Couple>{
     private int x;
     private int y;
     private int nbVoisins;
 
+    /**
+     *  Cree un couple avec une valeur X et Y ainsi qu'un nombre de voisins égal à zero.
+     * @param x
+     * @param y
+     * @param nbVoisins
+     */
     public Couple(int x, int y){
         this(x,y,0);
     }
     
     /**
-     *  Cree un couple avec un valeur X, Y et un nombre de voisins passé en parametre.
+     *  Cree un couple avec une valeur X, Y et un nombre de voisins passé en parametre.
      * @param x
      * @param y
      * @param nbVoisins
-     * @return une ListeChainee
      */
     public Couple(int x, int y, int nbVoisins){
         this.x=x;
