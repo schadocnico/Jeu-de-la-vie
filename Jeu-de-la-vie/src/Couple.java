@@ -9,12 +9,24 @@ public class Couple implements Comparable<Couple>, Addition<Object>, Copy<Couple
     public Couple(int x, int y){
         this(x,y,0);
     }
+    
+    /**
+     *  Cree un couple avec un valeur X, Y et un nombre de voisins passé en parametre.
+     * @param x
+     * @param y
+     * @param nbVoisins
+     * @return une ListeChainee
+     */
     public Couple(int x, int y, int nbVoisins){
         this.x=x;
         this.y=y;
         this.nbVoisins=nbVoisins;
     }
 
+     /**
+     *  Retourne le position de X d'une cellule.
+     * @return un int
+     */
     public int getX() {
         return x;
     }
